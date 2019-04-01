@@ -103,3 +103,60 @@ public class Solution {
         return dp[m][n];
     }
 }
+
+//this is my code
+#include<string>
+#include<iostream>
+#include<algorithm>
+using namespace std;
+
+bool is_match(string s,string p);
+
+int main()
+{
+	string s,p;
+	getline(cin,s);
+	getline(cin,p);
+	bool flag=is_match(s,p);
+	if(flag)
+	{
+		cout << "true" << endl;
+	}
+	else
+	{
+		cout << "false" << endl;
+	}
+	return 0;
+}
+
+bool is_match(string s,string p)
+{
+	if(p.empty())
+	{
+		return s.empty();
+	}
+	else if(p.size()==1)
+	{
+		return s.size()==1&&(p[0]==s[0]||p[0]=='.');
+	}
+	else if(p[1]!='*')
+	{
+		if(s.empty())
+		{
+			return false;
+		}
+		return (p[0]==s[0]||p[0]=='.')&&is_match(s.substr(1,s.size()),p.substr(1,p.size()));
+	}
+	else
+	{
+		while(!s.empty()&&(s[0]==p[0]||p[0]=='.'))
+		{
+			if(is_match(s,p.substr(2,p.size())))
+			{
+				return true;
+			}
+			s=s.substr(1,s.size());
+		}
+	}
+	return is_match(s,p.substr(2,p.size()));
+}
